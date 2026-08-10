@@ -1,5 +1,6 @@
 name: Unpack mammalian repeat-context scripts
 
+# Temporary import workflow; it deletes itself after restoring the scripts.
 on:
   push:
     branches: [main]
