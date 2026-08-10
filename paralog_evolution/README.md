@@ -1,6 +1,6 @@
 # Paralog evolution
 
-This directory contains the sequence-based analyses used to classify human *PGA* paralogs, summarize paralog-variable sites, and identify coding variants with predicted functional effects. Sequence extraction from haplotype-resolved assemblies is not wrapped here because it was performed with standard sequence utilities (for example, BEDTools and fxTools).
+This directory contains the sequence-based analyses used to classify human *PGA* paralogs, summarize paralog-variable sites, and identify coding variants with predicted functional effects.
 
 ## Requirements
 
