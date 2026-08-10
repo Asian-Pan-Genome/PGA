@@ -6,7 +6,7 @@ Code used to resolve structural haplotypes (SHs) of the human *PGA* locus and to
 
 - [PGR-TK](https://github.com/Sema4-Research/pgr-tk)
 - [ODGI](https://github.com/pangenome/odgi)
-- Python 3 with `numpy`, `pandas`, `scipy`, `ete3`, `scikit-learn`, `hdbscan` and `matplotlib`
+- Python 3 with `numpy`, `pandas`, `scipy`, `ete3`, `scikit-learn` and `hdbscan`
 - R with `tidyverse`, `ggtree`, `gggenes`, `aplot`, `RColorBrewer` and `ape`
 - `bcftools`, `tabix`, `bgzip` and `samtools`
 - [vcflib](https://github.com/vcflib/vcflib), including `vcfcreatemulti`
@@ -138,7 +138,7 @@ python PGA_flanking_tree_SH_refined_clusters.py \
     --outdir flanking_tree_SH_refined_clusters
 ```
 
-The final refinement uses exact-SH purity >= 0.80 and a minimum clade size of 10. `ancestral_NAHR_candidates.hdbscan.tsv` contains the candidate groups together with left- and right-context comparator haplotypes.
+The final refinement uses exact-SH purity >= 0.80 and a minimum clade size of 10. `ancestral_NAHR_candidates.hdbscan.tsv` contains the candidate haplotypes together with left- and right-context comparator haplotypes.
 
 For each candidate, extract the focal *PGA* sequence and the two comparator sequences, align them with MAFFT, and convert the alignment to a focal-coordinate variant table:
 
