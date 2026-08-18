@@ -13,7 +13,7 @@ mammalian_evolution/
 ├── 02_copy_classification/    # k-mer classes, sensitivity analysis and protein tree
 ├── 03_species_association/    # species/ecology table preparation and PGLS
 ├── 04_ancestral_dynamics/     # ancestral CN, branch rates, episodes, LOO and null tests
-└── repeat_context/            # existing repeat-context workflow
+└── repeat_context/            # repeat-context workflow
 ```
 
 Run the four numbered stages in order. Each stage has its own README with inputs, scripts, outputs and command-line conventions:
