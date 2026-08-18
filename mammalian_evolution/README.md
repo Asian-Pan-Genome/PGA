@@ -1,6 +1,6 @@
 # Mammalian evolution
 
-This directory contains the code and compact analysis products used for the mammalian *PGA* annotation and comparative analyses described in Supplementary Text 11. The released workflow covers the analysis from mammalian genome assembly selection and syntenic-anchor definition through independent local expansion episodes and leave-one-order-out analyses, including the k-mer sensitivity analysis.
+This directory contains the code and compact analysis products used for the mammalian *PGA* annotation and comparative analyses described in Supplementary Text 11.
 
 ## Directory structure
 
