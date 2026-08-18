@@ -1,4 +1,4 @@
-# Stage 04: ancestral copy-number dynamics
+# 04: ancestral copy-number dynamics
 
 This stage reconstructs ancestral *PGA* copy number and branch-specific gains and losses. It tests diet-associated rates, independent expansions, leave-one-order-out sensitivity, phylogenetic nulls and a high-quality assembly subset.
 
@@ -36,7 +36,7 @@ The high-quality sensitivity analysis requires a gap-free anchor interval and co
 bash 04_ancestral_dynamics/scripts/09_run_high_quality_subset.sh
 ```
 
-## Deposited outputs
+## Outputs
 
 The `results/` directory contains:
 
@@ -46,9 +46,3 @@ The `results/` directory contains:
 - leave-one-order-out statistics;
 - compact phylogenetic-null and stochastic-map summaries with observed test tables;
 - high-quality species lists, branch events and binary-rate tests.
-
-Full per-replicate null simulations and stochastic maps are not deposited. Compact summaries retain the observed statistics and empirical comparisons required for audit. No final plotting script is included.
-
-## Dependencies
-
-Python 3 with `pandas`; R with `ape`, `MASS` and `phytools`; and Bash for the high-quality subset wrapper.
