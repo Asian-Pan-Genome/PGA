@@ -1,14 +1,12 @@
 # Mammalian evolution
 
-This directory contains the code and compact analysis products used for the mammalian *PGA* annotation and comparative analyses described in Supplementary Note 11. The released workflow covers the analysis from mammalian genome assembly selection and syntenic-anchor definition through independent local expansion episodes and leave-one-order-out analyses, including the k-mer sensitivity analysis reported in Supplementary Table S12.
-
-The workflow is aligned to the author-frozen `main.v2` manuscript revision. It provides the data tables and statistical results supporting Fig. 6a and Supplementary Figs. S36–S39, but does not include final manuscript plotting scripts. The existing repeat-context workflow is retained separately and unchanged below.
+This directory contains the code and compact analysis products used for the mammalian *PGA* annotation and comparative analyses described in Supplementary Text 11. The released workflow covers the analysis from mammalian genome assembly selection and syntenic-anchor definition through independent local expansion episodes and leave-one-order-out analyses, including the k-mer sensitivity analysis.
 
 ## Directory structure
 
 ```text
 mammalian_evolution/
-├── shared_resources/          # Small authoritative inputs shared across stages
+├── shared_resources/          # Files shared across different analyses.
 ├── 01_anchor_annotation/      # VPS37C–VWCE locus extraction and local copy units
 ├── 02_copy_classification/    # k-mer classes, sensitivity analysis and protein tree
 ├── 03_species_association/    # species/ecology table preparation and PGLS
