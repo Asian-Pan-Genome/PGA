@@ -8,9 +8,8 @@ This stage implements the Supplementary Note 11 workflow from genome-assembly me
 - `../shared_resources/assembly_and_toga/whitelists/`: deposited four-reference target and canonical-interval whitelists.
 - Per assembly: TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz`.
 - Per assembly: the corresponding genome as a UCSC 2bit file.
-- For rebuilding the deposited whitelists only: the author-curated transcript BEDs for human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1.
+- For rebuilding the deposited whitelists only: the merged transcript BEDs for human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1.
 
-Whole assemblies, bulk TOGA2 directories and the complete four-reference transcript BED collections are not stored in GitHub. See the top-level README for download locations.
 
 ## Scripts
 
