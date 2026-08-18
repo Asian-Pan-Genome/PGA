@@ -44,23 +44,17 @@ Optional repeat annotation:
 bash scripts/04_annotate_anchor_repeats.sh ASSEMBLY_ID /path/to/per_assembly 16
 ```
 
-The optional Gepard and legacy clustering arguments reproduce historical QC and export steps. They are not required for the released workflow.
 
-## Unit logic and QC
+## Define copy unit and QC
 
 Primary seeds are compact nine-exon models spanning 4–15 kbp. Nine-exon models up to 18 kbp and models with at least five exons in the accepted span can support complete or partial units. Multi-unit, strongly stretched or attached fragment models are recorded but not counted as additional copies. Only four-reference whitelist matches can seed a target-family unit.
 
 QC tables in `results/` record missing anchors, anchors on different contigs, sequence gaps and other extraction failures.
 
-## Deposited outputs
+## Outputs
 
 - final assembly lists and anchor-locus QC summaries;
 - gap-free anchor-interval and species metadata;
 - anchor-locus length summaries;
-- the merged candidate protein FASTA for Stage 02.
+- the merged candidate protein FASTA (for Stage 02).
 
-Large per-assembly FASTAs, raw TOGA2 directories and full RepeatMasker/TRF working outputs are not deposited.
-
-## Dependencies
-
-Bash, GNU core utilities, `awk`, `bc`, Python 3, `pandas`, UCSC `twoBitToFa` and `seqkit` are required. RepeatMasker plus TRF are required only for `04_annotate_anchor_repeats.sh`; Java/Gepard is optional.
