@@ -1,12 +1,13 @@
-# Stage 03: species-level association
+# 03: species-level association
 
 This stage selects one assembly per species, integrates copy number, ecological traits and assembly quality, and fits phylogenetic generalized least-squares (PGLS) models on the VertLife tree.
 
 ## Data preparation
 
-Representative assemblies are ranked by anchor completeness, contig/scaffold N50 and complete ancestral-gene count. Deposited tables record all duplicate-species decisions.
+Representative assemblies are ranked by anchor completeness, contig/scaffold N50 and complete ancestral-gene count.
 
-Diet proportions and body mass are based on EltonTraits 1.0. Missing species were curated from congeneric records or Animal Diversity Web and retained as authoritative inputs. Detailed diets were grouped as carnivore, omnivore, insectivore or plant-dominant. Body mass was analysed on the `log10` scale.
+Diet proportions and body mass are based on EltonTraits 1.0.
+Detailed diets were grouped as carnivore, omnivore, insectivore or plant-dominant. Body mass was analysed on the `log10` scale.
 
 Copy-number and trait records were intersected with the deposited 295-species VertLife subtree.
 
@@ -37,18 +38,12 @@ bash 03_species_association/scripts/05_run_pgls_models.sh \
 
 Copy number is modelled as `log1p(CN)`. Body mass and contig N50 use the `log10` scale. PGLS uses a Brownian correlation structure with Pagel's lambda estimated by maximum likelihood in `ape` and `nlme`. Output tables record species retained after tree intersection and complete-case filtering.
 
-Files in `results/` provide the coefficients, model summaries, AIC values and species sets supporting Fig. 6a and related supplementary analyses. No final plotting script is deposited.
+Files in `results/` provide the coefficients, model summaries, AIC values and species sets supporting Fig. 6 and related supplementary analyses.
 
-## Deposited resources and outputs
+## Resources and outputs
 
 - `../shared_resources/ecology/`: 295-species EltonTraits/body-mass data and authoritative diet-classification inputs;
 - `../shared_resources/species_metadata/`: representative-assembly decisions, order labels and quality metadata;
 - `../shared_resources/phylogeny/295_sp.tree`: the analysis subtree;
 - `results/295_*`: prepared copy-number, ecology and representative-assembly tables;
 - `results/pga_*_pgls_*`: PGLS coefficients, AIC tables, model summaries and used-species records.
-
-The `*_copy.tsv` files are provenance snapshots from the author analysis and are not exact content duplicates.
-
-## Dependencies
-
-Python 3 with `numpy` and `pandas`; R with `ape` and `nlme`; and Bash for the convenience wrapper.
