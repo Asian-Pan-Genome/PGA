@@ -1,0 +1,2 @@
+analysis	n_branches	plant_time	nonplant_time	plant_gain	nonplant_gain	plant_gain_fraction	plant_gain_events	nonplant_gain_events	plant_gain_event_fraction	corrected_gain_RR	log_corrected_gain_RR
+observed_stable_branches	557	1891.33179831665	3579.7338150903	52	0	1	24	0	1	198.734061849444	5.29196755836641

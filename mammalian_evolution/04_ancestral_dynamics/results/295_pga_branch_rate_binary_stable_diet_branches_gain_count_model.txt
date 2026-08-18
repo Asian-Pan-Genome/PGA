@@ -1,0 +1,67 @@
+Analysis: stable_diet_branches 
+Response: gain_count 
+Number of branches: 531 
+Total count: 52 
+Poisson overdispersion: 0.6000647 
+
+=== Event distribution by diet_binary ===
+     diet_binary  x
+1      Non_plant  0
+2 Plant_dominant 52
+
+=== Poisson null model ===
+
+Call:
+glm(formula = formula_null, family = poisson(), data = model_df)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -5.07434    0.18108  -28.02   <2e-16 ***
+starting_CN_z  0.68512    0.05297   12.93   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 310.36  on 530  degrees of freedom
+Residual deviance: 203.99  on 529  degrees of freedom
+AIC: 268.07
+
+Number of Fisher Scoring iterations: 6
+
+
+=== Poisson diet model ===
+
+Call:
+glm(formula = formula_diet, family = poisson(), data = model_df)
+
+Coefficients:
+                            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                -22.82113 1028.97766  -0.022    0.982    
+diet_binaryPlant_dominant   18.68203 1028.97768   0.018    0.986    
+starting_CN_z                0.48982    0.05757   8.508   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 310.36  on 530  degrees of freedom
+Residual deviance: 151.38  on 528  degrees of freedom
+AIC: 217.45
+
+Number of Fisher Scoring iterations: 19
+
+
+=== Poisson model comparison: null vs diet ===
+Analysis of Deviance Table
+
+Model 1: gain_count ~ starting_CN_z + offset(log_branch_length)
+Model 2: gain_count ~ diet_binary + starting_CN_z + offset(log_branch_length)
+  Resid. Df Resid. Dev Df Deviance  Pr(>Chi)    
+1       529     203.99                          
+2       528     151.38  1   52.618 4.052e-13 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+=== Best model used for coefficient table ===
+Poisson 

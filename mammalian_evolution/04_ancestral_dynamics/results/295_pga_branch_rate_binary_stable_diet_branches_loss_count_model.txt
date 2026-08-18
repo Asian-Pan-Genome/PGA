@@ -1,0 +1,67 @@
+Analysis: stable_diet_branches 
+Response: loss_count 
+Number of branches: 531 
+Total count: 51 
+Poisson overdispersion: 1.044522 
+
+=== Event distribution by diet_binary ===
+     diet_binary  x
+1      Non_plant 12
+2 Plant_dominant 39
+
+=== Poisson null model ===
+
+Call:
+glm(formula = formula_null, family = poisson(), data = model_df)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -4.81141    0.15834 -30.386  < 2e-16 ***
+starting_CN_z  0.51506    0.06281   8.201 2.39e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 258.46  on 530  degrees of freedom
+Residual deviance: 217.12  on 529  degrees of freedom
+AIC: 314.57
+
+Number of Fisher Scoring iterations: 7
+
+
+=== Poisson diet model ===
+
+Call:
+glm(formula = formula_diet, family = poisson(), data = model_df)
+
+Coefficients:
+                          Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               -5.49162    0.28930 -18.982  < 2e-16 ***
+diet_binaryPlant_dominant  1.26719    0.35667   3.553 0.000381 ***
+starting_CN_z              0.38344    0.07158   5.357 8.46e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 258.46  on 530  degrees of freedom
+Residual deviance: 203.46  on 528  degrees of freedom
+AIC: 302.91
+
+Number of Fisher Scoring iterations: 7
+
+
+=== Poisson model comparison: null vs diet ===
+Analysis of Deviance Table
+
+Model 1: loss_count ~ starting_CN_z + offset(log_branch_length)
+Model 2: loss_count ~ diet_binary + starting_CN_z + offset(log_branch_length)
+  Resid. Df Resid. Dev Df Deviance Pr(>Chi)    
+1       529     217.12                         
+2       528     203.46  1    13.66 0.000219 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+=== Best model used for coefficient table ===
+Poisson 

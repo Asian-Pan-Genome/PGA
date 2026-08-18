@@ -1,0 +1,2 @@
+analysis	event_col	nonplant_no_event	nonplant_event	plant_no_event	plant_event	odds_ratio	conf_low95	conf_high95	p_value
+stable_diet_branches	gain_event	318	0	189	24	Inf	9.9364418385785	Inf	1.32836217472945e-10

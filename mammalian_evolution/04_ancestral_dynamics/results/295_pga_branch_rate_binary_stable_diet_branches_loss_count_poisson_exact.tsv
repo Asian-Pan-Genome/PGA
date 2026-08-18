@@ -1,0 +1,2 @@
+analysis	response	plant_count	nonplant_count	plant_time	nonplant_time	plant_rate	nonplant_rate	rate_ratio	conf_low95	conf_high95	p_value	method
+stable_diet_branches	loss_count	39	12	1891.33179831665	3236.1650132167	0.0206203903697444	0.00370809274279626	5.56091548945311	2.85259722743896	11.6661387691948	1.178156321132e-08	Comparison of Poisson rates

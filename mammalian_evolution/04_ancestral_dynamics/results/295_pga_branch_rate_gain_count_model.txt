@@ -1,0 +1,129 @@
+Response: gain_count 
+Total events: 60 
+Number of branches: 588 
+Poisson overdispersion: 1.724488 
+
+=== Poisson null model ===
+
+Call:
+glm(formula = formula_null, family = poisson(), data = model_df)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -5.08482    0.16737  -30.38   <2e-16 ***
+starting_CN_z  0.68032    0.04726   14.39   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 391.49  on 587  degrees of freedom
+Residual deviance: 264.18  on 586  degrees of freedom
+AIC: 334.07
+
+Number of Fisher Scoring iterations: 6
+
+
+=== Poisson diet model ===
+
+Call:
+glm(formula = formula_diet, family = poisson(), data = model_df)
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)    
+(Intercept)               -22.42053 1964.88014  -0.011    0.991    
+diet_stateInsectivore      -0.72209 2470.57249   0.000    1.000    
+diet_stateOmnivore         17.41508 1964.88017   0.009    0.993    
+diet_statePlant_dominant   18.05330 1964.88015   0.009    0.993    
+starting_CN_z               0.54204    0.05294  10.239   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 391.49  on 587  degrees of freedom
+Residual deviance: 224.40  on 583  degrees of freedom
+AIC: 300.29
+
+Number of Fisher Scoring iterations: 19
+
+
+=== Poisson model comparison: null vs diet ===
+Analysis of Deviance Table
+
+Model 1: gain_count ~ starting_CN_z + offset(log_branch_length)
+Model 2: gain_count ~ diet_state + starting_CN_z + offset(log_branch_length)
+  Resid. Df Resid. Dev Df Deviance  Pr(>Chi)    
+1       586     264.18                          
+2       583     224.40  3   39.778 1.187e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Overdispersion > 1.5, trying negative binomial model...
+
+=== Negative binomial null model ===
+
+Call:
+glm.nb(formula = formula_null, data = model_df, init.theta = 0.1167742367, 
+    link = log)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)    -5.6389     0.3013  -18.72   <2e-16 ***
+starting_CN_z   1.7126     0.1510   11.34   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for Negative Binomial(0.1168) family taken to be 1)
+
+    Null deviance: 149.834  on 587  degrees of freedom
+Residual deviance:  76.579  on 586  degrees of freedom
+AIC: 243.11
+
+Number of Fisher Scoring iterations: 1
+
+
+              Theta:  0.1168 
+          Std. Err.:  0.0332 
+Warning while fitting theta: alternation limit reached 
+
+ 2 x log-likelihood:  -237.1120 
+
+=== Negative binomial diet model ===
+
+Call:
+glm.nb(formula = formula_diet, data = model_df, init.theta = 0.1535840123, 
+    link = log)
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)    
+(Intercept)              -3.807e+01  6.298e+06   0.000        1    
+diet_stateInsectivore    -7.813e-01  7.999e+06   0.000        1    
+diet_stateOmnivore        3.269e+01  6.298e+06   0.000        1    
+diet_statePlant_dominant  3.322e+01  6.298e+06   0.000        1    
+starting_CN_z             1.299e+00  1.468e-01   8.845   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for Negative Binomial(0.1536) family taken to be 1)
+
+    Null deviance: 168.108  on 587  degrees of freedom
+Residual deviance:  71.631  on 583  degrees of freedom
+AIC: 233.68
+
+Number of Fisher Scoring iterations: 1
+
+
+              Theta:  0.1536 
+          Std. Err.:  0.0449 
+Warning while fitting theta: alternation limit reached 
+
+ 2 x log-likelihood:  -221.6800 
+
+=== Negative binomial AIC comparison ===
+        df      AIC
+nb_null  3 243.1123
+nb_diet  6 233.6797
+
+=== Best model used for coefficient table ===
+Negative_binomial 

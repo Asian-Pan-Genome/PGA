@@ -1,0 +1,2 @@
+analysis	response	plant_count	nonplant_count	plant_time	nonplant_time	plant_rate	nonplant_rate	rate_ratio	conf_low95	conf_high95	p_value	method
+stable_diet_branches	gain_count	52	0	1891.33179831665	3236.1650132167	0.0274938538263259	0	Inf	23.2742839902087	Inf	2.99806410511863e-23	Comparison of Poisson rates

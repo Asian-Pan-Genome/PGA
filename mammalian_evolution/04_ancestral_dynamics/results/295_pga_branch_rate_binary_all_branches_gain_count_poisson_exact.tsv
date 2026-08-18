@@ -1,0 +1,2 @@
+analysis	response	plant_count	nonplant_count	plant_time	nonplant_time	plant_rate	nonplant_rate	rate_ratio	conf_low95	conf_high95	p_value	method
+all_branches	gain_count	53	7	2167.94419997928	3876.2995039087	0.0244471236854281	0.00180584601188363	13.5377676305457	6.13347761838287	35.2961557588256	4.65639581066739e-17	Comparison of Poisson rates

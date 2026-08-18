@@ -1,0 +1,2 @@
+analysis	event_col	nonplant_no_event	nonplant_event	plant_no_event	plant_event	odds_ratio	conf_low95	conf_high95	p_value
+all_branches	loss_event	342	17	196	33	3.3797905646146	1.77579426348843	6.6494667058306	6.16328399323615e-05

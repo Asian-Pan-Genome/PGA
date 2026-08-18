@@ -1,0 +1,2 @@
+analysis	event_col	nonplant_no_event	nonplant_event	plant_no_event	plant_event	odds_ratio	conf_low95	conf_high95	p_value
+stable_diet_branches	loss_event	306	12	180	33	4.66103501597166	2.27643172137483	10.1767926653455	3.96183342709946e-06

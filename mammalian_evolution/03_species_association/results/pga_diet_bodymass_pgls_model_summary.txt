@@ -1,0 +1,145 @@
+
+==============================
+Model 1: plant_total_prop + body mass
+==============================
+Generalized least squares fit by maximum likelihood
+  Model: formula 
+  Data: d 
+        AIC      BIC   logLik
+  -58.89708 -40.4622 34.44854
+
+Correlation Structure: corPagel
+ Formula: ~tip_label 
+ Parameter estimate(s):
+   lambda 
+0.9351132 
+
+Coefficients:
+                      Value  Std.Error   t-value p-value
+(Intercept)       0.6488460 0.14353859  4.520360  0.0000
+plant_total_prop -0.0002801 0.06716959 -0.004170  0.9967
+log10_body_mass   0.0298383 0.02175884  1.371318  0.1713
+
+ Correlation: 
+                 (Intr) plnt__
+plant_total_prop -0.148       
+log10_body_mass  -0.452 -0.117
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-1.92220092 -0.44093047 -0.18135839  0.01773461  5.31234737 
+
+Residual standard error: 0.40476 
+Degrees of freedom: 295 total; 292 residual
+
+==============================
+Model 2: plant_structural_prop + body mass
+==============================
+Generalized least squares fit by maximum likelihood
+  Model: formula 
+  Data: d 
+       AIC       BIC   logLik
+  -59.0207 -40.58583 34.51035
+
+Correlation Structure: corPagel
+ Formula: ~tip_label 
+ Parameter estimate(s):
+   lambda 
+0.9359243 
+
+Coefficients:
+                           Value  Std.Error   t-value p-value
+(Intercept)            0.6524383 0.14253009  4.577548  0.0000
+plant_structural_prop -0.0238799 0.06741187 -0.354239  0.7234
+log10_body_mass        0.0311802 0.02199399  1.417670  0.1574
+
+ Correlation: 
+                      (Intr) plnt__
+plant_structural_prop -0.068       
+log10_body_mass       -0.456 -0.183
+
+Standardized residuals:
+         Min           Q1          Med           Q3          Max 
+-1.883862890 -0.473730306 -0.186377012  0.004726488  5.342265809 
+
+Residual standard error: 0.4054673 
+Degrees of freedom: 295 total; 292 residual
+
+==============================
+Model 3: Diet_Group + body mass
+==============================
+Generalized least squares fit by maximum likelihood
+  Model: formula 
+  Data: d 
+        AIC       BIC   logLik
+  -57.38407 -35.26221 34.69203
+
+Correlation Structure: corPagel
+ Formula: ~tip_label 
+ Parameter estimate(s):
+   lambda 
+0.9362859 
+
+Coefficients:
+                             Value  Std.Error  t-value p-value
+(Intercept)              0.6427923 0.14318126 4.489360  0.0000
+Diet_GroupOmnivore       0.0240426 0.04054956 0.592919  0.5537
+Diet_GroupPlant_dominant 0.0004866 0.05228564 0.009306  0.9926
+log10_body_mass          0.0305991 0.02196289 1.393220  0.1646
+
+ Correlation: 
+                         (Intr) Dt_GrO Dt_GP_
+Diet_GroupOmnivore       -0.094              
+Diet_GroupPlant_dominant -0.077  0.539       
+log10_body_mass          -0.460 -0.034 -0.157
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-1.91345139 -0.46296408 -0.17573883  0.01960882  5.30897744 
+
+Residual standard error: 0.4055729 
+Degrees of freedom: 295 total; 291 residual
+
+==============================
+Model 4: plant_total_prop + body mass + contig N50
+==============================
+Generalized least squares fit by maximum likelihood
+  Model: formula 
+  Data: d 
+        AIC       BIC   logLik
+  -60.67633 -38.55447 36.33816
+
+Correlation Structure: corPagel
+ Formula: ~tip_label 
+ Parameter estimate(s):
+   lambda 
+0.9361455 
+
+Coefficients:
+                      Value  Std.Error    t-value p-value
+(Intercept)       0.4562509 0.17445426  2.6153040  0.0094
+plant_total_prop -0.0214182 0.06771920 -0.3162793  0.7520
+log10_body_mass   0.0324598 0.02172127  1.4943807  0.1362
+log10_contig_N50  0.0262313 0.01353342  1.9382609  0.0536
+
+ Correlation: 
+                 (Intr) plnt__ lg10__
+plant_total_prop -0.031              
+log10_body_mass  -0.406 -0.125       
+log10_contig_N50 -0.571 -0.157  0.064
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-1.95880217 -0.50552363 -0.18981352  0.01843832  5.35259317 
+
+Residual standard error: 0.4031788 
+Degrees of freedom: 295 total; 291 residual
+
+==============================
+AIC
+==============================
+       df       AIC
+m1$fit  5 -58.89708
+m2$fit  5 -59.02070
+m3$fit  6 -57.38407
+m4$fit  6 -60.67633

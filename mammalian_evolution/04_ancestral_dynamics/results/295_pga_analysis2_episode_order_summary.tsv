@@ -1,0 +1,6 @@
+root_child_order	root_diet_binary	n_episodes	total_gain_count_in_episode
+Lagomorpha	Plant_dominant	3	22
+Mixed	Plant_dominant	2	10
+Perissodactyla	Plant_dominant	1	7
+Primates	Plant_dominant	6	19
+Sirenia	Plant_dominant	1	2

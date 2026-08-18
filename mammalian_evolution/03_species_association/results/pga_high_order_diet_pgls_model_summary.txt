@@ -1,0 +1,115 @@
+
+==============================
+Model 1: High-order diet + body mass
+==============================
+Generalized least squares fit by maximum likelihood
+  Model: formula 
+  Data: d 
+        AIC       BIC  logLik
+  -55.43819 -29.62937 34.7191
+
+Correlation Structure: corPagel
+ Formula: ~tip_label 
+ Parameter estimate(s):
+   lambda 
+0.9362282 
+
+Coefficients:
+                                   Value  Std.Error   t-value p-value
+(Intercept)                    0.6533675 0.15056728  4.339373  0.0000
+High_Order_DietInsectivore    -0.0138666 0.06010228 -0.230716  0.8177
+High_Order_DietOmnivore        0.0171467 0.05042203  0.340064  0.7341
+High_Order_DietPlant_dominant -0.0066354 0.06085745 -0.109032  0.9133
+log10_body_mass                0.0303756 0.02201947  1.379489  0.1688
+
+ Correlation: 
+                              (Intr) H_O_DI H_O_DO H_O_DP
+High_Order_DietInsectivore    -0.305                     
+High_Order_DietOmnivore       -0.253  0.593              
+High_Order_DietPlant_dominant -0.219  0.509  0.675       
+log10_body_mass               -0.451  0.045 -0.001 -0.112
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-1.92001998 -0.45785620 -0.19494547  0.02741032  5.30338414 
+
+Residual standard error: 0.4054789 
+Degrees of freedom: 295 total; 290 residual
+
+==============================
+Model 2: Food proportions + body mass
+==============================
+Generalized least squares fit by maximum likelihood
+  Model: formula 
+  Data: d 
+        AIC       BIC   logLik
+  -55.81461 -30.00578 34.90731
+
+Correlation Structure: corPagel
+ Formula: ~tip_label 
+ Parameter estimate(s):
+  lambda 
+0.935746 
+
+Coefficients:
+                         Value  Std.Error   t-value p-value
+(Intercept)          0.6001968 0.15563476  3.856444  0.0001
+plant_dominant_prop  0.0378902 0.07910260  0.479001  0.6323
+insectivore_prop     0.0641903 0.07455020  0.861035  0.3899
+nectarivore_prop    -0.0790815 0.28040093 -0.282030  0.7781
+log10_body_mass      0.0302500 0.02193111  1.379320  0.1689
+
+ Correlation: 
+                    (Intr) plnt__ insct_ nctrv_
+plant_dominant_prop -0.308                     
+insectivore_prop    -0.378  0.513              
+nectarivore_prop    -0.107  0.163  0.127       
+log10_body_mass     -0.442 -0.075  0.063  0.060
+
+Standardized residuals:
+         Min           Q1          Med           Q3          Max 
+-1.900783083 -0.468967679 -0.122838007  0.006871348  5.335277877 
+
+Residual standard error: 0.4047476 
+Degrees of freedom: 295 total; 290 residual
+
+==============================
+Model 2 simple: Plant-dominant proportion + body mass
+==============================
+Generalized least squares fit by maximum likelihood
+  Model: formula 
+  Data: d 
+        AIC       BIC   logLik
+  -58.90626 -40.47139 34.45313
+
+Correlation Structure: corPagel
+ Formula: ~tip_label 
+ Parameter estimate(s):
+   lambda 
+0.9349201 
+
+Coefficients:
+                        Value  Std.Error  t-value p-value
+(Intercept)         0.6468129 0.14323441 4.515764  0.0000
+plant_dominant_prop 0.0064771 0.06729034 0.096256  0.9234
+log10_body_mass     0.0295655 0.02180036 1.356191  0.1761
+
+ Correlation: 
+                    (Intr) plnt__
+plant_dominant_prop -0.137       
+log10_body_mass     -0.451 -0.133
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max 
+-1.93187268 -0.43108131 -0.17493639  0.02063589  5.30528630 
+
+Residual standard error: 0.4045661 
+Degrees of freedom: 295 total; 292 residual
+
+==============================
+AIC
+==============================
+                  df       AIC
+m_class$fit        7 -55.43819
+m_prop$fit         7 -55.81461
+m_prop_simple$fit  5 -58.90626

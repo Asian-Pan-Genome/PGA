@@ -1,0 +1,4 @@
+analysis	response	model	term	estimate	std_error	statistic	p_value	rate_ratio	rate_ratio_low95	rate_ratio_high95
+stable_diet_branches	gain_count	Poisson	(Intercept)	-22.8211339813431	1028.97765894858	-0.0221784542967259	0.982305604343927	1.22717766144057e-10	0	Inf
+stable_diet_branches	gain_count	Poisson	diet_binaryPlant_dominant	18.6820253843637	1028.97767792343	0.0181559092924792	0.985514476120107	129867516.425902	0	Inf
+stable_diet_branches	gain_count	Poisson	starting_CN_z	0.489820007130465	0.0575729742634368	8.50781140625452	1.7724718733909e-17	1.6320224411148	1.4578707452637	1.82697763636141
