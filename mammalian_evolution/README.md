@@ -14,27 +14,13 @@ mammalian_evolution/
 └── repeat_context/            # repeat-context workflow
 ```
 
-Run the four numbered stages in order. Each stage has its own README with inputs, scripts, outputs and command-line conventions:
+Each subfolder has its own README with inputs, scripts and outputs:
 
 1. [Anchor annotation](01_anchor_annotation/README.md)
 2. [Copy classification](02_copy_classification/README.md)
 3. [Species association](03_species_association/README.md)
 4. [Ancestral dynamics](04_ancestral_dynamics/README.md)
 
-There is intentionally no single master pipeline. Assembly-level steps are run independently so that failures, gaps and annotation exceptions remain auditable before results are combined.
-
-## Reproducibility boundary
-
-This public directory contains final analysis scripts, small manually curated or authoritative inputs, representative sequence/tree products, compact intermediate tables, and reported statistical summaries. It does not mirror:
-
-- whole-genome assemblies or bulk TOGA2 directories;
-- the four source-reference transcript BED collections;
-- full GTEx, mouse ENCODE or CattleGTEx expression matrices;
-- full per-replicate phylogenetic-null or stochastic-map outputs;
-- superseded scripts, exact duplicates, working notes or files held for local review;
-- final manuscript figure-generation scripts.
-
-The alignment-free classifier can emit diagnostic plots as part of its own QC output; these are not the final manuscript plotting workflow and are not deposited here.
 
 ## External data acquisition
 
@@ -54,20 +40,7 @@ The time-calibrated mammalian phylogeny was obtained from [VertLife](https://ver
 
 ### Expression support
 
-Expression support was inspected directly from the [GTEx Portal](https://gtexportal.org/home/), [ENCODE](https://www.encodeproject.org/) and the [CattleGTEx portal](https://cattlegtex.farmgtex.org/). These sources support the human *PGA5*, mouse *Pepf* and cattle *PAG1* expression comparisons described in the manuscript, but expression downloads and reprocessing are outside this repository's reproducibility boundary.
-
-## Software
-
-The scripts are intended for GNU/Linux or WSL with Bash, GNU core utilities, `awk` and `bc`. Principal dependencies are:
-
-- Python 3 with `numpy`, `pandas`, `scipy`, `scikit-learn`, `matplotlib` and Biopython;
-- R with `ape`, `nlme`, `MASS` and `phytools`;
-- UCSC `twoBitToFa` and `seqkit`;
-- MAFFT 7.505, trimAl 1.4.rev15 and IQ-TREE 2.1.4 for the reported protein phylogeny;
-- RepeatMasker with the mammalian Dfam library and Tandem Repeats Finder (TRF) for anchor-locus repeat annotation;
-- Java/Gepard only for the optional locus self-alignment QC step.
-
-See each stage README for the subset actually required by that stage.
+Expression support was inspected directly from the [GTEx Portal](https://gtexportal.org/home/), [ENCODE](https://www.encodeproject.org/) and the [CattleGTEx portal](https://cattlegtex.farmgtex.org/). These sources support the human *PGA5*, mouse *Pepf* and cattle *PAG1* expression comparisons described in the manuscript.
 
 ## Repeat context
 
