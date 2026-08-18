@@ -1,6 +1,6 @@
-# Stage 01: anchor-locus annotation
+# 01: anchor-locus annotation
 
-This stage extracts the gap-free `VPS37C–VWCE` interval and annotates local *PGA*, *PGA*-like and *PAG*-like copy units. It integrates TOGA2 models from four references, resolves independent units and extracts candidate sequences for classification.
+This folder contains scripts used to extract the gap-free `VPS37C–VWCE` interval and annotate local *PGA*, *PGA*-like and *PAG*-like copy units. It integrates TOGA2 models from four references, resolves independent units and extracts candidate sequences for classification.
 
 ## Inputs
 
