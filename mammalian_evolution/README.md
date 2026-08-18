@@ -32,7 +32,7 @@ TOGA2 annotations were downloaded from:
 
 <https://genome.senckenberg.de/download/TOGA2/>
 
-Stage 01 requires TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz`, plus each genome in UCSC 2bit format. The deposited whitelists were curated from human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1 transcript BEDs.
+01 requires TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz`, plus each genome in UCSC 2bit format. The deposited whitelists were curated from human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1 transcript BEDs.
 
 ### Phylogeny and ecological traits
 
