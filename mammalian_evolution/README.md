@@ -32,11 +32,11 @@ TOGA2 annotations were downloaded from:
 
 <https://genome.senckenberg.de/download/TOGA2/>
 
-For each assembly, the first stage expects the TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz` files plus the corresponding genome in UCSC 2bit format. The deposited four-reference whitelists were generated from author-curated transcript BEDs for human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1; those full BED collections are not mirrored.
+For each assembly, the first stage expects the TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz` files plus the corresponding genome in UCSC 2bit format. The deposited four-reference whitelists were generated from author-curated transcript BEDs for human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1.
 
 ### Phylogeny and ecological traits
 
-The time-calibrated mammalian phylogeny was obtained from [VertLife](https://vertlife.org/phylosubsets/). Diet and body-mass information was derived from [EltonTraits 1.0](https://figshare.com/collections/EltonTraits_1_0_Species-level_foraging_attributes_of_the_world_s_birds_and_mammals/3306933), with documented author curation for missing species using congeneric information or [Animal Diversity Web](https://animaldiversity.org/). Only the analysis subset and authoritative curation inputs required by the released scripts are deposited.
+The time-calibrated mammalian phylogeny was obtained from [VertLife](https://vertlife.org/phylosubsets/). Diet and body-mass information was derived from [EltonTraits 1.0](https://figshare.com/collections/EltonTraits_1_0_Species-level_foraging_attributes_of_the_world_s_birds_and_mammals/3306933), with documented author curation for missing species using congeneric information or [Animal Diversity Web](https://animaldiversity.org/).
 
 ### Expression support
 
