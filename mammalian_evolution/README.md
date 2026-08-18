@@ -1,20 +1,20 @@
 # Mammalian evolution
 
-This directory contains the code and compact analysis products used for the mammalian *PGA* annotation and comparative analyses described in Supplementary Text 11.
+This directory contains the code and compact results for mammalian *PGA* annotation and the comparative analyses described in Supplementary Text 11.
 
 ## Directory structure
 
 ```text
 mammalian_evolution/
-├── shared_resources/          # Files shared across different analyses.
-├── 01_anchor_annotation/      # VPS37C–VWCE locus extraction and local copy units
-├── 02_copy_classification/    # k-mer classes, sensitivity analysis and protein tree
-├── 03_species_association/    # species/ecology table preparation and PGLS
-├── 04_ancestral_dynamics/     # ancestral CN, branch rates, episodes, LOO and null tests
+├── shared_resources/          # Inputs shared across analyses
+├── 01_anchor_annotation/      # VPS37C–VWCE locus extraction and copy-unit annotation
+├── 02_copy_classification/    # k-mer classification, sensitivity analysis and protein tree
+├── 03_species_association/    # Species/ecology data preparation and PGLS
+├── 04_ancestral_dynamics/     # Ancestral CN, branch rates, expansions and sensitivity tests
 └── repeat_context/            # repeat-context workflow
 ```
 
-Each subfolder has its own README with inputs, scripts and outputs:
+Stage-specific inputs, scripts and outputs are described in:
 
 1. [Anchor annotation](01_anchor_annotation/README.md)
 2. [Copy classification](02_copy_classification/README.md)
@@ -26,21 +26,21 @@ Each subfolder has its own README with inputs, scripts and outputs:
 
 ### Genome assemblies and TOGA2 annotations
 
-Assembly accessions, source repositories and quality metadata are listed in [`shared_resources/assembly_and_toga/assemblies_and_species.tsv`](shared_resources/assembly_and_toga/assemblies_and_species.tsv). NCBI accessions can be obtained through [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/genome/); rows with a non-NCBI source retain their original source URL in the same table.
+Assembly accessions, sources and quality metadata are listed in [`assemblies_and_species.tsv`](shared_resources/assembly_and_toga/assemblies_and_species.tsv). Download NCBI assemblies with [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/genome/); alternative source URLs are included in the table.
 
 TOGA2 annotations were downloaded from:
 
 <https://genome.senckenberg.de/download/TOGA2/>
 
-For each assembly, the first stage expects the TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz` files plus the corresponding genome in UCSC 2bit format. The deposited four-reference whitelists were generated from author-curated transcript BEDs for human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1.
+Stage 01 requires TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz`, plus each genome in UCSC 2bit format. The deposited whitelists were curated from human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1 transcript BEDs.
 
 ### Phylogeny and ecological traits
 
-The time-calibrated mammalian phylogeny was obtained from [VertLife](https://vertlife.org/phylosubsets/). Diet and body-mass information was derived from [EltonTraits 1.0](https://figshare.com/collections/EltonTraits_1_0_Species-level_foraging_attributes_of_the_world_s_birds_and_mammals/3306933), with documented author curation for missing species using congeneric information or [Animal Diversity Web](https://animaldiversity.org/).
+The time-calibrated mammalian phylogeny was obtained from [VertLife](https://vertlife.org/phylosubsets/). Diet and body mass were obtained from [EltonTraits 1.0](https://figshare.com/collections/EltonTraits_1_0_Species-level_foraging_attributes_of_the_world_s_birds_and_mammals/3306933). Missing species were curated from congeneric records or [Animal Diversity Web](https://animaldiversity.org/).
 
 ### Expression support
 
-Expression support was inspected directly from the [GTEx Portal](https://gtexportal.org/home/), [ENCODE](https://www.encodeproject.org/) and the [CattleGTEx portal](https://cattlegtex.farmgtex.org/). These sources support the human *PGA5*, mouse *Pepf* and cattle *PAG1* expression comparisons described in the manuscript.
+Expression support for human *PGA5*, mouse *Pepf* and cattle *PAG1* was inspected in the [GTEx Portal](https://gtexportal.org/home/), [ENCODE](https://www.encodeproject.org/) and [CattleGTEx](https://cattlegtex.farmgtex.org/).
 
 ## Repeat context
 
