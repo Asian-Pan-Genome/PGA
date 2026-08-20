@@ -1,0 +1,4 @@
+system	replicate	topology	trajectory
+PGA34A	rep1	/path/to/PGA34A/rep1/step5_ref.tpr	/path/to/PGA34A/rep1/md_fit_20_100ns.xtc
+PGA34B	rep1	/path/to/PGA34B/rep1/step5_ref.tpr	/path/to/PGA34B/rep1/md_fit_20_100ns.xtc
+PGA5	rep1	/path/to/PGA5/rep1/step5_ref.tpr	/path/to/PGA5/rep1/md_fit_20_100ns.xtc
