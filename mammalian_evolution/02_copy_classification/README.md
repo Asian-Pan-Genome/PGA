@@ -1,37 +1,62 @@
-# Mammalian *PGA* copy classification
+# 02: copy classification
 
-Classification of local pepsinogen copy units into canonical *PGA* and divergent *PGA*-like classes using alignment-free k-mer structure, with protein phylogeny as an independent sequence-based check.
+This stage classifies candidate units by alignment-free k-mer content, evaluates `k = 13, 15, 17, 19`, assigns biological labels and reconstructs the intact-protein phylogeny.
 
-## K-mer classification
+## Inputs
 
-`scripts/01_run_kmer_classification.py` constructs strand-invariant k-mer presence/absence profiles, removes k-mers present in >95% of sequences, converts pairwise Jaccard similarities to Mash distances, and generates UPGMA and PCoA representations.
+- the merged candidate FASTA (from Stage 01);
+- assembly-level candidate-ID lists and locus BED files produced by Stage 01;
+- the primary cluster assignment table in `results/`;
+- the final protein FASTA for intact-ORF filtering and phylogeny reconstruction.
+
+## Alignment-free classification
+
+`scripts/01_run_kmer_classification.py` applies the following steps to each k:
+
+1. generate canonical presence/absence k-mer sets, excluding ambiguous windows;
+2. remove k-mers present in more than 95% of sequences;
+3. transform exact pairwise Jaccard similarities to Mash distances;
+4. perform average-linkage UPGMA clustering;
+5. generate principal-coordinate analysis (PCoA) coordinates and diagnostics.
+
+The primary analysis uses `k = 15`. The sensitivity tables contain 2,902 units: 647 *PGA*, 1,688 *PAG*, 566 *Pepf*-like and one divergent *PGA*-like unit. Relative to `k = 15`, one label changed at `k = 17` and nine changed at `k = 19` (adjusted Rand indices 0.999 and 0.995). At `k = 13`, the four broad classes split into smaller subclusters.
+
+Example:
 
 ```bash
 python scripts/01_run_kmer_classification.py \
-    --fasta /path/to/all_candidate_units.fasta \
-    --outdir /path/to/kmer_output \
-    --k_values 13,15,17,19
+  --fasta /path/to/all_candidate_units.fasta \
+  --outdir /path/to/kmer_output \
+  --k_values 13,15,17,19
 ```
 
-The primary analysis uses `k = 15`; `k = 13, 17, 19` provide sensitivity analyses. Across 2,902 refined units, the primary classification contains 647 canonical *PGA*, 1,688 *PAG*, 566 *Pepf*-like, and one additional divergent *PGA*-like sequence.
-
-## Copy labels and protein phylogeny
+## Scripts
 
 | Script | Role |
 | --- | --- |
-| `scripts/02_update_cluster_assignments.py` | Convert primary clusters to biological copy classes. |
-| `scripts/03_assign_cluster_labels_to_units.py` | Apply selected classes to assembly-level copy units. |
-| `scripts/03_run_cluster_assignment_by_assembly.sh` | Assembly-level wrapper for copy assignment. |
-| `scripts/04_filter_intact_orf.py` | Retain intact protein sequences for phylogeny. |
-| `scripts/05_build_protein_phylogeny.sh` | Run MAFFT, trimAl, and IQ-TREE. |
+| `scripts/01_run_kmer_classification.py` | Canonical k-mer, Mash-distance, UPGMA and PCoA workflow with cross-k sensitivity summaries. |
+| `scripts/02_update_cluster_assignments.py` | Convert numeric primary clusters to the biological labels used downstream. |
+| `scripts/03_assign_cluster_labels_to_units.py` | Join selected labels to local units and create numbered assembly-level copy labels. |
+| `scripts/03_run_cluster_assignment_by_assembly.sh` | Assembly-level wrapper for applying the deposited assignment table. |
+| `scripts/04_filter_intact_orf.py` | Remove proteins with internal stop codons while allowing a terminal stop. |
+| `scripts/05_build_protein_phylogeny.sh` | Run MAFFT, trimAl and IQ-TREE with model selection and 1,000 ultrafast bootstrap replicates. |
+
+Example protein-tree run:
 
 ```bash
 python scripts/04_filter_intact_orf.py \
-    --input candidate_proteins.fasta \
-    --output intact_orf_proteins.fasta
+  --input candidate_proteins.fasta \
+  --output intact_orf_proteins.fasta
 
 bash scripts/05_build_protein_phylogeny.sh \
-    intact_orf_proteins.fasta /path/to/tree_output 16
+  intact_orf_proteins.fasta /path/to/tree_output 16
 ```
 
-The resulting class assignments provide species-level *PGA* CN for downstream comparative analyses.
+The reported phylogeny used MAFFT 7.505 (`--auto`), trimAl 1.4.rev15 and IQ-TREE 2.1.4. IQ-TREE used automatic model selection, 1,000 ultrafast bootstrap replicates and 1,000 SH-aLRT replicates.
+
+## Outputs
+
+- cluster assignments and PCoA coordinates for `k = 13, 15, 17, 19`;
+- selected biological-label assignments and copy-count summaries;
+- merged candidate, intact-ORF, aligned and trimmed FASTAs;
+- final tree files.

@@ -1,8 +1,18 @@
 # *PGA* annotation
 
-Human *PGA* copies were annotated with Liftoff from GRCh38.p14/GENCODE v47; ape annotations combine TOGA2 projections with Liftoff rescue.
+This directory contains the commands and scripts used to annotate *PGA* genes in human haplotype-resolved assemblies and ape genomes.
 
-## Human genomes
+## Requirements
+
+- [Liftoff](https://github.com/agshumate/Liftoff)
+- [AGAT](https://github.com/NBISweden/AGAT)
+- [BEDTools](https://github.com/arq5x/bedtools2)
+
+## Human *PGA* annotation
+
+Human *PGA* copies were annotated directly with Liftoff.
+
+In our analysis, we used the GRCh38.p14 *PGA* locus as the reference, together with a Liftoff annotation database built from the corresponding GENCODE v47 annotation.
 
 ```bash
 liftoff \
@@ -17,18 +27,27 @@ liftoff \
     -o <target>.liftoff.gff
 ```
 
-`<target.PGA.fa>` is the *PGA* locus extracted from a haplotype-resolved assembly.
+Here, `<target.PGA.fa>` is the *PGA* locus extracted from a haplotype-resolved assembly.
 
-## Ape genomes
+## Ape *PGA* annotation
 
-Ape annotations use the T2T primate assemblies and hg38-based TOGA2 annotations. Candidate TOGA2 *PGA* models of 8–12 Kbp were retained, the corresponding local locus was masked, and Liftoff was used to recover additional copies. The two annotation sets were then merged.
+Ape *PGA* annotation combines existing TOGA projections with Liftoff-based rescue of additional copies.
 
-Prepare a tab-delimited manifest:
+The T2T ape genome assemblies used in this study are available from:
+
+https://github.com/marbl/Primates
+
+The corresponding TOGA annotations can be downloaded from:
+
+https://genome.senckenberg.de/download/TOGA2/
+
+Before running the script, prepare a tab-delimited manifest containing the assembly FASTA and TOGA annotation for each genome. For example:
 
 ```text
 sample_id	species	fasta	toga_gtf
 mPanTro3_hap1	Pan_troglodytes	/path/to/mPanTro3.hap1.fa	/path/to/geneAnnotation.gtf.gz
 mGorGor1_hap1	Gorilla_gorilla	/path/to/mGorGor1.hap1.fa	/path/to/geneAnnotation.gtf.gz
+mSymSyn1_hap1	Symphalangus_syndactylus	/path/to/mSymSyn1.hap1.fa	/path/to/geneAnnotation.gtf.gz
 ```
 
 Run:
@@ -42,11 +61,18 @@ bash annotate_ape_pga.sh \
     16
 ```
 
-The merged annotation for each assembly is written to:
+The arguments are:
+
+```text
+1. manifest.tsv
+2. reference PGA FASTA
+3. Liftoff annotation database
+4. output directory
+5. number of threads (default: 16)
+```
+
+For each genome, the script first retains TOGA-annotated *PGA* genes with gene lengths of 8–12 kb. It then extracts the local *PGA* region with 100 kb of flanking sequence on each side, masks the retained TOGA annotations, and runs Liftoff to recover additional *PGA* copies. The TOGA and Liftoff annotations are finally merged into:
 
 ```text
 <output_dir>/<sample_id>/<sample_id>.TOGA_liftoff.gff
 ```
-
-T2T primate assemblies: <https://github.com/marbl/Primates>  
-TOGA2 annotations: <https://genome.senckenberg.de/download/TOGA2/>

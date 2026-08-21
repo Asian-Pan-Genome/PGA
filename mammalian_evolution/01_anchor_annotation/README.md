@@ -1,34 +1,60 @@
-# Mammalian anchor-locus annotation
+# 01: anchor-locus annotation
 
-Synteny-aware extraction of the `VPS37C–PGA–VWCE` interval and resolution of local pepsinogen gene-copy units from TOGA2 projections.
+This folder contains scripts used to extract the gap-free `VPS37C–VWCE` interval and annotate local *PGA*, *PGA*-like and *PAG*-like copy units. It integrates TOGA2 models from four references, resolves independent units and extracts candidate sequences for classification.
 
-TOGA2 models from human, mouse, cattle, and African elephant references are integrated through the whitelists in [`../shared_resources/assembly_and_toga/whitelists/`](../shared_resources/assembly_and_toga/whitelists/). Assemblies are retained only when the two anchor genes occur on the same contig and the local interval is gap-free; subsequent copy-unit QC yields the 479-genome, 377-species comparative panel.
+## Inputs
+
+- `../shared_resources/assembly_and_toga/assemblies_and_species.tsv`: assembly accessions, sources and quality metadata.
+- `../shared_resources/assembly_and_toga/whitelists/`: deposited four-reference target and canonical-interval whitelists.
+- Per assembly: TOGA2 `query_annotation.bed`, `nucleotide.fa.gz` and `protein.fa.gz`.
+- Per assembly: the corresponding genome as a UCSC 2bit file.
+- Merged transcript BEDs for human GRCh38, mouse GRCm38, cattle ARS-UCD2.0 and elephant mEleMax1, required only to rebuild the whitelists.
+
 
 ## Scripts
 
 | Script | Role |
 | --- | --- |
-| `scripts/00a_extract_reference_intervals.sh` | Extract reference `VPS37C–VWCE` intervals. |
-| `scripts/00b_build_canonical_interval_whitelist.py` | Build reference interval and target-family whitelists. |
-| `scripts/00c_assemble_four_reference_whitelists.sh` | Merge the four reference whitelists. |
-| `scripts/01_extract_anchor_locus.sh` | Extract the anchor interval and local TOGA2 models and record locus QC. |
-| `scripts/02_refine_toga_local_units.py` | Resolve complete and partial local gene-copy units. |
-| `scripts/02_run_refine_toga_local_units.sh` | Apply local-unit refinement across assemblies. |
-| `scripts/03_extract_copy_sequences.sh` | Extract candidate copy sequences for classification. |
-| `scripts/04_annotate_anchor_repeats.sh` | Annotate repeats in the anchor interval. |
-| `scripts/05_merge_copy_sequences.sh` | Merge assembly-level copy sequences and tables. |
+| `scripts/00a_extract_reference_intervals.sh` | Build a canonical `VPS37C–VWCE` interval whitelist for each reference. |
+| `scripts/00b_build_canonical_interval_whitelist.py` | Parse BED12 transcript names and retain the canonical anchor interval and target-family models. |
+| `scripts/00c_assemble_four_reference_whitelists.sh` | Merge reference whitelists and generate transcript, source-name and gene-label target lists. |
+| `scripts/01_extract_anchor_locus.sh` | Extract the anchor interval and local TOGA2 models, detect gaps and optionally generate Gepard QC. |
+| `scripts/02_refine_toga_local_units.py` | Resolve complete and partial local units and record fused, stretched, fragmentary and non-target models. |
+| `scripts/02_run_refine_toga_local_units.sh` | Assembly-level wrapper for local-unit refinement with the deposited four-reference whitelist. |
+| `scripts/03_extract_copy_sequences.sh` | Extract candidate proteins and add assembly identifiers to FASTA headers. |
+| `scripts/04_annotate_anchor_repeats.sh` | Run RepeatMasker and TRF on the extracted anchor locus. The optional TRF converter is intentionally not public. |
+| `scripts/05_merge_copy_sequences.sh` | Merge assembly-level FASTAs and copy tables for Stage 02. |
 
-## Assembly-level run
+## Typical assembly-level run
 
 ```bash
 bash scripts/01_extract_anchor_locus.sh \
-    ASSEMBLY_ID /path/to/TOGA2/ASSEMBLY_ID /path/to/ASSEMBLY_ID.2bit /path/to/per_assembly
+  ASSEMBLY_ID /path/to/TOGA2/ASSEMBLY_ID /path/to/ASSEMBLY_ID.2bit /path/to/per_assembly
 
 bash scripts/02_run_refine_toga_local_units.sh \
-    ASSEMBLY_ID /path/to/TOGA2/ASSEMBLY_ID /path/to/per_assembly
+  ASSEMBLY_ID /path/to/TOGA2/ASSEMBLY_ID /path/to/per_assembly
 
 bash scripts/03_extract_copy_sequences.sh \
-    ASSEMBLY_ID /path/to/TOGA2/ASSEMBLY_ID /path/to/per_assembly
+  ASSEMBLY_ID /path/to/TOGA2/ASSEMBLY_ID /path/to/per_assembly
 ```
 
-The merged candidate FASTA and copy-unit tables provide the input to [`../02_copy_classification/`](../02_copy_classification/).
+Optional repeat annotation:
+
+```bash
+bash scripts/04_annotate_anchor_repeats.sh ASSEMBLY_ID /path/to/per_assembly 16
+```
+
+
+## Define copy unit and QC
+
+Primary seeds are compact nine-exon models spanning 4–15 kbp. Nine-exon models up to 18 kbp and models with at least five exons in the accepted span can support complete or partial units. Multi-unit, strongly stretched or attached fragment models are recorded but not counted as additional copies. Only four-reference whitelist matches can seed a target-family unit.
+
+QC tables in `results/` record missing anchors, anchors on different contigs, sequence gaps and other extraction failures.
+
+## Outputs
+
+- final assembly lists and anchor-locus QC summaries;
+- gap-free anchor-interval and species metadata;
+- anchor-locus length summaries;
+- the merged candidate protein FASTA (for Stage 02).
+
