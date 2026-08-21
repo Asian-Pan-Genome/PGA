@@ -1,30 +1,10 @@
-# UK Biobank association analyses
+# UK Biobank associations
 
-This directory contains the UK Biobank molecular-trait association and PheWAS analyses for *PGA34A* copy number. *PGA* copy-number genotyping is handled separately in [`cn_genotyping`](../cn_genotyping/); the scripts here start from the resulting `Pred_PGA34A` calls.
+Association of inferred *PGA34A* copy number with molecular traits and PheCode phenotypes in UK Biobank.
 
-## Requirements
+## Association cohort
 
-For molecular association:
-
-- Python 3
-- pandas
-- NumPy
-- SciPy
-- statsmodels
-
-For PheWAS:
-
-- R
-- [PheWAS](https://github.com/PheWAS/PheWAS)
-- dplyr
-
-## 1. Prepare the UKB association cohort
-
-Prepare the *PGA* CN prediction table from [`cn_genotyping`](../cn_genotyping/), the baseline UKB phenotype table, and `molecular_fields.txt`.
-
-`molecular_fields.txt` contains the 314 baseline non-proteomic fields considered in this study. The minimum sample-size filter is applied later by the association script; 313 fields passed this filter in the study data.
-
-Run:
+Starting from *PGA* CN calls generated in [`cn_genotyping/`](../cn_genotyping/), prepare the analysis cohort with:
 
 ```bash
 python prepare_ukb_association.py \
@@ -34,20 +14,9 @@ python prepare_ukb_association.py \
     --out-prefix UKB.PGA34A
 ```
 
-The script applies the UKB genetic QC and ancestry filters used in the study and requires non-missing *PGA34A* CN, age, sex, and PC1-PC10. With the study inputs, the final association cohort contained 328,897 participants.
+The script applies the genetic QC, ancestry, sex-concordance, kinship, and missingness filters used in the manuscript and requires non-missing *PGA34A* CN, age, sex, and PC1–PC10. The final study cohort contained 328,897 participants.
 
-Main outputs:
-
-```text
-UKB.PGA34A.cohort.tsv
-UKB.PGA34A.icd10.tsv
-```
-
-The first file contains the association cohort, covariates, and baseline molecular fields. The second contains the hospital inpatient ICD-10 diagnoses from UKB Data-Field 41270 in long format for PheWAS.
-
-## 2. Molecular-trait association
-
-Plasma protein measurements are supplied separately as a table with `eid` plus one column per protein. Run:
+## Molecular-trait associations
 
 ```bash
 python molecular_association.py \
@@ -58,11 +27,9 @@ python molecular_association.py \
     --out PGA34A.molecular_association.tsv
 ```
 
-Traits with fewer than 100 non-missing measurements are skipped. Each retained trait is rank-based inverse-normal transformed and tested by OLS with *PGA34A* CN as the predictor, adjusting for age, sex, and PC1-PC10. P values are Bonferroni-corrected across all tested traits.
+Traits with fewer than 100 non-missing measurements are excluded. Each retained trait is rank-based inverse-normal transformed and tested by OLS with *PGA34A* CN as the predictor, adjusting for age, sex, and PC1–PC10. *P* values are Bonferroni-corrected across tested traits.
 
-## 3. PheWAS
-
-Run the PheWAS from the prepared cohort and ICD-10 table:
+## PheWAS
 
 ```bash
 Rscript PheWAS.R \
@@ -72,6 +39,4 @@ Rscript PheWAS.R \
     10
 ```
 
-`PheWAS.R` restores standard ICD-10 decimal formatting before mapping UKB diagnosis codes to PheCodes. A participant is treated as a case when at least one ICD-10 code maps to the corresponding PheCode. PheCode exclusions and sex-specific restrictions are applied, while eligible participants without inpatient ICD-10 records remain available as controls where appropriate.
-
-Associations are tested by logistic regression with *PGA34A* CN as a continuous predictor, adjusting for age, sex, and PC1-PC10. Phenotypes with fewer than 20 cases or controls are skipped, and P values are Bonferroni-corrected across the successfully tested PheCode phenotypes.
+UKB ICD-10 codes are converted to standard decimal formatting before PheCode mapping. A participant is classified as a case when at least one diagnosis maps to the corresponding PheCode; PheCode exclusions and sex-specific restrictions define eligible controls. Logistic regression tests *PGA34A* CN as a continuous predictor with age, sex, and PC1–PC10 as covariates. Phenotypes with fewer than 20 cases or controls are excluded, and *P* values are Bonferroni-corrected across tested phenotypes.

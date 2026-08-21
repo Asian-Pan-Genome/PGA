@@ -1,35 +1,10 @@
 # SNP associations with *PGA34A* copy number
 
-This directory contains the 1KGP analysis used to identify common SNPs associated with *PGA34A* copy number.
+Genome-wide association of common 1KGP SNPs with diploid *PGA34A* copy number. EUR is the primary analysis population to match the ancestry background of the UK Biobank analyses; the same framework is applied separately to the remaining superpopulations for comparison.
 
-## Requirements
+## Population panels and association testing
 
-- [BCFtools](https://github.com/samtools/bcftools)
-- [PLINK 1.9](https://www.cog-genomics.org/plink/1.9/)
-- Python 3 with `pandas`
-
-## Input data
-
-We used the phased 1KGP high-coverage autosomal SNV panel:
-
-https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20201028_3202_phased/
-
-A sample metadata table is also required, with sample ID, diploid *PGA34A* copy number, and analysis superpopulation in the first three columns. For example:
-
-```text
-Sample	PGA34A_CN	New_superpop
-HG00323	0	EUR
-HG00268	1	EUR
-...
-```
-
-In our analysis, AFR combines the AFR-W and AFR-E&S groups; AMR, EAS, EUR, SAS, and CSA are treated separately.
-
-Variant IDs in the input VCF are expected in `CHROM:POS:REF:ALT` format for downstream result merging.
-
-## Prepare population panels, phenotypes, and principal components
-
-Run:
+Prepare population-specific MAF-filtered panels, phenotypes, and the first ten within-population PCs:
 
 ```bash
 bash prepare_1kg_population_panels.sh \
@@ -39,11 +14,9 @@ bash prepare_1kg_population_panels.sh \
     16
 ```
 
-For each superpopulation, the script generates the sample list and PLINK phenotype file, recalculates allele frequencies after sample subsetting, retains variants with MAF >= 0.05, performs LD pruning with `--indep-pairwise 50 5 0.2`, and calculates the first ten genetic PCs.
+The workflow retains biallelic SNVs with MAF ≥ 0.05, performs LD pruning with `--indep-pairwise 50 5 0.2`, and calculates PC1–PC10 with PLINK v1.9.
 
-## Run SNP-*PGA34A* CN associations
-
-Run:
+Test SNP dosage against *PGA34A* CN within each superpopulation:
 
 ```bash
 bash run_cn_snp_association.sh \
@@ -52,11 +25,7 @@ bash run_cn_snp_association.sh \
     16
 ```
 
-Genome-wide SNP associations with *PGA34A* CN are tested separately in each superpopulation using PLINK linear regression, with PC1-PC10 included as covariates.
-
-## Merge significant associations
-
-Genome-wide significant associations can be combined across superpopulations with:
+Models use *PGA34A* CN as the quantitative response and SNP dosage as the predictor, adjusting for PC1–PC10. Genome-wide significant associations can be combined with:
 
 ```bash
 python merge_association_results.py \
@@ -65,8 +34,6 @@ python merge_association_results.py \
     --output all_populations_aggregated.P5e-8.tsv
 ```
 
-The output contains each significant variant, the superpopulation(s) in which it was detected, and the corresponding effect sizes and P values.
+For the manuscript analysis, EUR CN-linked variants within the focal region were further annotated with the GWAS Catalog and GTEx cis-eQTL resources.
 
-## Functional annotation
-
-For the manuscript analysis, CN-linked variants in the focal region were further evaluated using GWAS Catalog and GTEx cis-eQTL annotations. Trait-level interpretation and the final selection of reported GWAS associations were manually curated and are not implemented here as an automated workflow.
+1KGP high-coverage phased variants: <https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20201028_3202_phased/>
