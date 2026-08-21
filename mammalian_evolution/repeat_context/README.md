@@ -1,18 +1,29 @@
 # Repeat context of mammalian *PGA* expansions
 
-Structural analysis of duplicated units and repeat-associated boundaries in mammalian lineages with expanded *PGA* loci.
+Commands used to define duplicated blocks and repeat-associated boundaries in selected mammalian *PGA* loci.
 
-## Apes and Old World monkeys
+## Requirements
 
-A PGGB graph is projected onto a single-copy outgroup with `odgi untangle`:
+- PGGB
+- ODGI
+- RepeatMasker
+- MUMmer4 and `paftools.js`
+- SAMtools and BEDTools
+- Python 3 with Biopython and Matplotlib
+
+## 1. Apes and Old World monkeys
+
+Build the 27-sequence PGGB graph and generate `odgi untangle` projections with:
 
 ```bash
-THREADS=16 bash run_primate_pggb_untangle.sh apes_owms.fa apes_owms
+THREADS=16 bash run_primate_pggb_untangle.sh \
+    apes_owms.fa \
+    apes_owms
 ```
 
-The primary projection uses *Ateles hybridus* with `-m 256`; neighbouring merge-distance settings and the single-copy Old World monkey *Rhinopithecus bieti* provide sensitivity comparisons.
+The primary projection uses *Ateles hybridus* with `-m 256`. The wrapper also generates the tested alternative `-m` settings and projections using *Rhinopithecus bieti*.
 
-Call candidate duplicated cores and endpoint repeat annotations with:
+Call duplicated cores and endpoint repeat annotations with:
 
 ```bash
 python call_untangle_duplicon_TE.py \
@@ -36,16 +47,51 @@ python plot_untangle_duplicon_TE.py \
     --max-join-transition-len 5000
 ```
 
-`plot_fig6b_case_panels.py` generates representative primate and Sirenia locus panels.
-
-## Other mammalian lineages
-
-Sirenia, Perissodactyla, and Lagomorpha loci are examined with MUMmer4 self-alignment and RepeatMasker. Where a suitable single-copy outgroup is available, pairwise alignment is used to compare duplicated-block boundaries; *Dugong dugon* provides the outgroup comparison for *Trichechus inunguis*.
+Representative primate and Sirenia locus panels are generated with:
 
 ```bash
-RepeatMasker -engine rmblast -species mammalia -gff -xsmall anchor_locus.fa
-nucmer -t 16 --maxmatch --nosimplify target.pga.anchor.locus.fa target.pga.anchor.locus.fa -p target.self_aln
-paftools.js delta2paf target.self_aln.delta > target.self_aln.paf
+python plot_fig6b_case_panels.py --help
 ```
 
-These analyses describe structural and repeat context; repeat overlap alone is not treated as proof of a specific duplication mechanism.
+## 2. Repeat annotation
+
+RepeatMasker annotations were generated with the mammalian Dfam library:
+
+```bash
+RepeatMasker \
+    -engine rmblast \
+    -species mammalia \
+    -gff \
+    -xsmall \
+    anchor_locus.fa
+```
+
+## 3. Self-alignment of expanded loci
+
+Sirenia, Perissodactyla, and Lagomorpha anchor loci were analysed with MUMmer4 self-alignment:
+
+```bash
+nucmer \
+    -t 16 \
+    --maxmatch \
+    --nosimplify \
+    target.pga.anchor.locus.fa \
+    target.pga.anchor.locus.fa \
+    -p target.self_aln
+
+paftools.js delta2paf \
+    target.self_aln.delta \
+    > target.self_aln.paf
+```
+
+For the Sirenia comparison, *Dugong dugon* is used as the single-copy reference for pairwise comparison with *Trichechus inunguis*.
+
+## Outputs
+
+The workflow generates:
+
+- PGGB/ODGI projection files for the primate analysis;
+- duplicated-core and duplicon interval tables;
+- repeat annotations intersecting duplicon endpoints;
+- self-alignment PAF files for selected mammalian loci;
+- local structural plots and representative case panels.

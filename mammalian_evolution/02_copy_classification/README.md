@@ -1,62 +1,78 @@
-# 02: copy classification
+# Copy classification
 
-This stage classifies candidate units by alignment-free k-mer content, evaluates `k = 13, 15, 17, 19`, assigns biological labels and reconstructs the intact-protein phylogeny.
+Commands used to classify candidate mammalian pepsinogen copy units by alignment-free k-mer similarity and to reconstruct the intact-protein phylogeny.
 
 ## Inputs
 
-- the merged candidate FASTA (from Stage 01);
-- assembly-level candidate-ID lists and locus BED files produced by Stage 01;
-- the primary cluster assignment table in `results/`;
-- the final protein FASTA for intact-ORF filtering and phylogeny reconstruction.
+- merged candidate-copy FASTA from [`../01_anchor_annotation/`](../01_anchor_annotation/);
+- assembly-level candidate-ID lists and locus BED files;
+- the primary cluster-assignment table in `results/`;
+- candidate protein FASTA for intact-ORF filtering and phylogeny reconstruction.
 
-## Alignment-free classification
+## 1. K-mer classification
 
-`scripts/01_run_kmer_classification.py` applies the following steps to each k:
-
-1. generate canonical presence/absence k-mer sets, excluding ambiguous windows;
-2. remove k-mers present in more than 95% of sequences;
-3. transform exact pairwise Jaccard similarities to Mash distances;
-4. perform average-linkage UPGMA clustering;
-5. generate principal-coordinate analysis (PCoA) coordinates and diagnostics.
-
-The primary analysis uses `k = 15`. The sensitivity tables contain 2,902 units: 647 *PGA*, 1,688 *PAG*, 566 *Pepf*-like and one divergent *PGA*-like unit. Relative to `k = 15`, one label changed at `k = 17` and nine changed at `k = 19` (adjusted Rand indices 0.999 and 0.995). At `k = 13`, the four broad classes split into smaller subclusters.
-
-Example:
+Classification was repeated for `k = 13, 15, 17, 19`; `k = 15` was used for the primary analysis.
 
 ```bash
 python scripts/01_run_kmer_classification.py \
-  --fasta /path/to/all_candidate_units.fasta \
-  --outdir /path/to/kmer_output \
-  --k_values 13,15,17,19
+    --fasta /path/to/all_candidate_units.fasta \
+    --outdir /path/to/kmer_output \
+    --k_values 13,15,17,19
 ```
 
-## Scripts
+For each value of `k`, the script:
 
-| Script | Role |
+1. generates canonical presence/absence k-mer sets and excludes ambiguous sequence windows;
+2. removes k-mers present in more than 95% of candidate sequences;
+3. converts exact pairwise Jaccard similarities to Mash distances;
+4. performs average-linkage UPGMA clustering;
+5. calculates principal-coordinate analysis coordinates and cross-k summaries.
+
+## 2. Assign copy classes
+
+| Script | Procedure |
 | --- | --- |
-| `scripts/01_run_kmer_classification.py` | Canonical k-mer, Mash-distance, UPGMA and PCoA workflow with cross-k sensitivity summaries. |
-| `scripts/02_update_cluster_assignments.py` | Convert numeric primary clusters to the biological labels used downstream. |
-| `scripts/03_assign_cluster_labels_to_units.py` | Join selected labels to local units and create numbered assembly-level copy labels. |
-| `scripts/03_run_cluster_assignment_by_assembly.sh` | Assembly-level wrapper for applying the deposited assignment table. |
-| `scripts/04_filter_intact_orf.py` | Remove proteins with internal stop codons while allowing a terminal stop. |
-| `scripts/05_build_protein_phylogeny.sh` | Run MAFFT, trimAl and IQ-TREE with model selection and 1,000 ultrafast bootstrap replicates. |
+| `scripts/02_update_cluster_assignments.py` | Convert the selected numeric clusters to the copy-class labels used downstream. |
+| `scripts/03_assign_cluster_labels_to_units.py` | Join selected class labels to local units and generate numbered assembly-level copy labels. |
+| `scripts/03_run_cluster_assignment_by_assembly.sh` | Apply the deposited assignment table to each assembly. |
 
-Example protein-tree run:
+Apply copy assignments at the assembly level with:
+
+```bash
+bash scripts/03_run_cluster_assignment_by_assembly.sh \
+    /path/to/per_assembly \
+    /path/to/cluster_assignments.tsv \
+    /path/to/output
+```
+
+## 3. Intact-protein phylogeny
+
+Remove protein sequences containing internal stop codons:
 
 ```bash
 python scripts/04_filter_intact_orf.py \
-  --input candidate_proteins.fasta \
-  --output intact_orf_proteins.fasta
-
-bash scripts/05_build_protein_phylogeny.sh \
-  intact_orf_proteins.fasta /path/to/tree_output 16
+    --input candidate_proteins.fasta \
+    --output intact_orf_proteins.fasta
 ```
 
-The reported phylogeny used MAFFT 7.505 (`--auto`), trimAl 1.4.rev15 and IQ-TREE 2.1.4. IQ-TREE used automatic model selection, 1,000 ultrafast bootstrap replicates and 1,000 SH-aLRT replicates.
+Build the protein tree with:
+
+```bash
+bash scripts/05_build_protein_phylogeny.sh \
+    intact_orf_proteins.fasta \
+    /path/to/tree_output \
+    16
+```
+
+The phylogeny used MAFFT v7.505 with `--auto`, trimAl v1.4.rev15, and IQ-TREE v2.1.4 with automatic model selection, 1,000 ultrafast bootstrap replicates, and 1,000 SH-aLRT replicates.
 
 ## Outputs
 
+The deposited outputs include:
+
 - cluster assignments and PCoA coordinates for `k = 13, 15, 17, 19`;
-- selected biological-label assignments and copy-count summaries;
-- merged candidate, intact-ORF, aligned and trimmed FASTAs;
-- final tree files.
+- the selected copy-class assignment table;
+- assembly-level copy labels and copy-count summaries;
+- candidate and intact-ORF protein FASTAs;
+- aligned and trimmed protein FASTAs;
+- IQ-TREE output files.
